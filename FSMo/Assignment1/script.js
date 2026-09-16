@@ -30,55 +30,108 @@ const questions = [    {
     }
 ];
 
-let index = 0;
+let currentQuestion = 0;
 let score = 0;
 let time = 30;
+let timer;
 
-const question = document.getElementById("question");
-const options = document.getElementById("options");
-const next = document.getElementById("next");
-const result = document.getElementById("result");
-const timer = document.getElementById("time");
+
+// Start Quiz
+function startQuiz() {
+
+    let name = document.getElementById("name").value;
+    let roll = document.getElementById("roll").value;
+    let section = document.getElementById("section").value;
+
+    if (name === "" || roll === "" || section === "") {
+        alert("Please enter all details!");
+        return;
+    }
+
+    document.getElementById("start-screen").style.display = "none";
+    document.getElementById("quiz-screen").style.display = "block";
+
+    document.getElementById("student-info").innerHTML =
+        "Name: " + name +
+        " | Roll: " + roll +
+        " | Section: " + section;
+
+    showQuestion();
+
+    timer = setInterval(countdown, 1000);
+}
+
+
+// Show Question
 function showQuestion() {
-    question.textContent = questions[index].question;
+
+    let q = questions[currentQuestion];
+
+    document.getElementById("question").textContent =
+        q.question;
+
+    let options = document.getElementById("options");
+
     options.innerHTML = "";
-    questions[index].options.forEach((option, i) => {
-        const button = document.createElement("button");
+
+    q.options.forEach(function(option, index) {
+
+        let button = document.createElement("button");
+
         button.textContent = option;
         button.className = "option";
 
-        button.onclick = function () {
-            if (i === questions[index].answer) {
+        button.onclick = function() {
+
+            if (index === q.answer) {
                 score++;
             }
 
-            next.disabled = false;
+            // Disable all options
+            document.querySelectorAll(".option")
+                .forEach(btn => btn.disabled = true);
         };
 
         options.appendChild(button);
     });
-
-    next.disabled = true;
 }
 
-next.onclick = function () {
-    index++;
 
-    if (index < questions.length) {
+// Next Question
+function nextQuestion() {
+
+    currentQuestion++;
+
+    if (currentQuestion < questions.length) {
         showQuestion();
     } else {
-        question.textContent = "Quiz Finished!";
-        options.innerHTML = "";
-        next.style.display = "none";
-        result.textContent = `Your score is ${score}/${questions.length}`;
+        finishQuiz();
     }
-};
+}
 
-setInterval(function () {
+
+// Timer
+function countdown() {
+
     time--;
-    timer.textContent = time;
+
+    document.getElementById("time").textContent = time;
+
     if (time <= 0) {
-        next.click();
+        finishQuiz();
     }
-}, 1000);
-showQuestion();
+}
+
+
+// Finish Quiz
+function finishQuiz() {
+
+    clearInterval(timer);
+
+    document.getElementById("quiz-screen").style.display = "none";
+
+    document.getElementById("result-screen").style.display = "block";
+
+    document.getElementById("final-score").textContent =
+        "Your Score: " + score + "/" + questions.length;
+}
