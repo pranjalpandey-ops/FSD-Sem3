@@ -1,23 +1,23 @@
 const questions = [
     {
-        question: "What Does ABES stand for?",
+        question: "What Does IDK stand?",
         options: [
-            "IDK",
+            "I Dont Know",
             "YOU DONT KNOW",
             "WE DONT KNOW",
             "NO ONE KNOWS"
         ],
-        answer: 3
+        answer: 0
     },
     {
-        question: "Which PLACEMENT in ABES College for student?",
+        question: "Which PLACEMENT in College for student?",
         options: [
+            "Good",
+            "Nice",
             "Decent",
-            "Worst",
-            "Poor",
             "Data Not available"
         ],
-        answer: 0
+        answer: 3
     },
     {
         question: "Why AC doesnt work in ABES?",
@@ -36,19 +36,24 @@ const questions = [
         options: [
             "Hindi",
             "Hinglish",
-            "Foul",
+            "English",
             "None of the above"
         ],
         answer: 1
     },
 
-    // Question 5
+
+
+
+
+
+
     {
-        question: "who is ranjans Gf ?",
+        question: "Does Internet Work in ABES ?",
         options: [
-            "pratham",
-            "parth",
-            "rohit",
+            "NO",
+            "NEVER",
+            "Nah",
             "all of the above"
         ],
         answer: 3
@@ -64,7 +69,10 @@ let timer;
 let selected = false;
 
 
-// Start Quiz
+
+
+
+
 function startQuiz() {
 
     let name = document.getElementById("name").value.trim();
@@ -114,16 +122,16 @@ function showQuestion() {
 
         button.onclick = function() {
 
-            // Prevent selecting again
+            
             if (selected) {
                 return;
             }
 
             selected = true;
 
-            // Highlight selected option
+            
             document.querySelectorAll(".option").forEach(function(btn) {
-                btn.style.background = "#f1f5f9";
+                btn.style.background = "white";
                 btn.style.color = "black";
             });
 
@@ -145,11 +153,9 @@ function showQuestion() {
     });
 }
 
-
-// Next Question
 function nextQuestion() {
 
-    // Don't allow Next without selecting an answer
+    // Don't allow Next without select
     if (!selected) {
         alert("Please select an option first!");
         return;
@@ -164,8 +170,7 @@ function nextQuestion() {
     }
 }
 
-
-// Timer
+//TIMER COUNT
 function countdown() {
     time--;
     document.getElementById("time").textContent = time;
